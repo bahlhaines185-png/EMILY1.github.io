@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WTE GOLD 1B 英语学习助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #dbeafe 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    /* Header */
+    .header {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.5rem;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #fbbf24 0%, #ec4899 50%, #8b5cf6 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    .logo-text h1 {
+      font-size: 1.25rem;
+      background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+    }
+    
+    .logo-text p {
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+    
+    .points-display {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .points-display .trophy-emoji {
+      font-size: 1.5rem;
+    }
+    
+    .points-display .points-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .points-display .level {
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+    
+    .points-display .points {
+      font-weight: bold;
+      color: #f97316;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 2rem 0;
+    }
+    
+    .hero h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    
+    .hero p {
+      color: #6b7280;
+      margin-bottom: 1rem;
+    }
+    
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .badge-yellow { background: #fde68a; }
+    .badge-pink { background: #fbcfe8; }
+    .badge-blue { background: #bfdbfe; }
+    
+    /* Section Title */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+    
+    .section-title .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+    }
+    
+    /* Units Grid */
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .unit-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      text-align: left;
+      width: 100%;
+    }
+    
+    .unit-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(139, 92, 246, 0.3);
+    }
+    
+    .unit-card .decor {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      border-radius: 0 0 0 100%;
+      opacity: 0.2;
+    }
+    
+    .unit-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .unit-emoji {
+      font-size: 3rem;
+    }
+    
+    .unit-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+    
+    .unit-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .unit-meta {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .unit-meta span {
+      background: #f3f4f6;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: #f3f4f6;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s;
+    }
+    
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+    
+    /* Stats Card */
+    .stats-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+    
+    .stat-item.pink { background: #fdf2f8; }
+    .stat-item.purple { background: #faf5ff; }
+    .stat-item.yellow { background: #fffbeb; }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 900;
+    }
+    
+    .stat-item.pink .stat-value { color: #ec4899; }
+    .stat-item.purple .stat-value { color: #8b5cf6; }
+    .stat-item.yellow .stat-value { font-size: 2.5rem; }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+    
+    /* Unit Detail */
+    .unit-detail {
+      display: none;
+    }
+    
+    .unit-detail.active {
+      display: block;
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+    
+    .back-btn:hover {
+      border-color: #c4b5fd;
+      color: #7c3aed;
+    }
+    
+    .detail-header {
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-banner {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .detail-banner .big-emoji {
+      font-size: 8rem;
+    }
+    
+    .detail-banner .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+      padding: 1.5rem;
+    }
+    
+    .detail-banner .unit-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .detail-banner .unit-name {
+      font-size: 2rem;
+      font-weight: 900;
+      color: white;
+    }
+    
+    /* Tabs */
+    .tabs {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .tab-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: #f9fafb;
+    }
+    
+    .tab-btn {
+      padding: 0.75rem 0.5rem;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: #6b7280;
+      background: transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      font-size: 0.875rem;
+    }
+    
+    .tab-btn:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .tab-btn.active {
+      color: white;
+    }
+    
+    .tab-btn.vocab.active { background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%); }
+    .tab-btn.sentences.active { background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%); }
+    .tab-btn.reading.active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+    .tab-btn.grammar.active { background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%); }
+    .tab-btn.exercises.active { background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%); }
+    
+    .tab-content {
+      display: none;
+      padding: 1.5rem;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Vocab Cards */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    
+    .vocab-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .vocab-card:hover {
+      border-color: #f9a8d4;
+      box-shadow: 0 10px 30px rgba(236, 72, 153, 0.2);
+    }
+    
+    .vocab-card.learned {
+      border-color: #86efac;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    }
+    
+    .vocab-emoji {
+      font-size: 3rem;
+    }
+    
+    .vocab-info {
+      flex: 1;
+    }
+    
+    .vocab-word {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .vocab-phonetic {
+      font-size: 0.875rem;
+      color: #9ca3af;
+      font-family: monospace;
+      background: #f3f4f6;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      margin-left: 0.5rem;
+    }
+    
+    .vocab-meaning {
+      color: #6b7280;
+    }
+    
+    .vocab-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 1.25rem;
+    }
+    
+    .btn-star {
+      background: #f3f4f6;
+    }
+    
+    .btn-star:hover {
+      background: #fef3c7;
+    }
+    
+    .btn-star.active {
+      background: #fbbf24;
+    }
+    
+    .btn-speak {
+      background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+    }
+    
+    .btn-speak:hover {
+      transform: scale(1.1);
+    }
+    
+    .btn-speak.speaking {
+      animation: pulse 0.6s ease-in-out infinite;
+    }
+    
+    /* Sentence Cards */
+    .sentence-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .sentence-num {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .sentence-emoji {
+      font-size: 2rem;
+    }
+    
+    .sentence-text {
+      flex: 1;
+    }
+    
+    .sentence-en {
+      font-size: 1.125rem;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .sentence-cn {
+      color: #6b7280;
+    }
+    
+    /* Reading Section */
+    .reading-section {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 2px solid #fcd34d;
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .reading-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #b45309;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .reading-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    
+    .reading-num {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+    
+    .reading-emoji {
+      font-size: 2rem;
+    }
+    
+    .reading-content {
+      flex: 1;
+    }
+    
+    .reading-en {
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    
+    .reading-cn {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+    
+    /* Grammar Cards */
+    .grammar-card {
+      background: white;
+      border-left: 4px solid #22d3ee;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    
+    .grammar-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .grammar-num {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .grammar-title {
+      font-size: 1.125rem;
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .grammar-content {
+      color: #4b5563;
+      margin-bottom: 1rem;
+    }
+    
+    .grammar-examples {
+      background: #ecfeff;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      border: 2px solid #a5f3fc;
+    }
+    
+    .grammar-examples-title {
+      color: #0891b2;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .grammar-example {
+      color: #4b5563;
+      padding: 0.25rem 0;
+    }
+    
+    /* Phonics */
+    .phonics-section {
+      background: linear-gradient(135deg, #ecfeff 0%, #e0f2fe 100%);
+      border: 2px solid #7dd3fc;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .phonics-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .phonics-sound {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+    
+    .phonics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+    
+    .phonics-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .phonics-word {
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .phonics-meaning {
+      font-size: 0.875rem;
+      color: #9ca3af;
+    }
+    
+    /* Exercise Cards */
+    .exercise-card {
+      background: white;
+      border: 2px solid #86efac;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    
+    .exercise-header {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #86efac;
+    }
+    
+    .exercise-title {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .score-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .score-badge.perfect { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+    .score-badge.good { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); }
+    .score-badge.ok { background: linear-gradient(135deg, #fb923c 0%, #f97316 100%); }
+    
+    .exercise-content {
+      padding: 1rem;
+    }
+    
+    .question {
+      margin-bottom: 1.5rem;
+    }
+    
+    .question-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .question-num {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+    
+    .question-emoji {
+      font-size: 1.5rem;
+    }
+    
+    .question-text {
+      font-weight: bold;
+      color: #1f2937;
+      flex: 1;
+    }
+    
+    .options {
+      padding-left: 2.5rem;
+    }
+    
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .option:hover {
+      background: #f3f4f6;
+    }
+    
+    .option.correct {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    
+    .option.wrong {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    
+    .option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .fill-input {
+      padding-left: 2.5rem;
+    }
+    
+    .fill-input input {
+      padding: 0.5rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      width: 200px;
+    }
+    
+    .fill-input input:focus {
+      outline: none;
+      border-color: #60a5fa;
+    }
+    
+    .fill-input input.correct {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+    
+    .fill-input input.wrong {
+      border-color: #dc2626;
+      background: #fef2f2;
+    }
+    
+    .exercise-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 2px solid #f3f4f6;
+    }
+    
+    .btn {
+      padding: 0.5rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    
+    .btn-outline {
+      background: white;
+      border: 2px solid #86efac;
+      color: #16a34a;
+    }
+    
+    .btn-outline:hover {
+      background: #f0fdf4;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* Divider */
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d1d5db, transparent);
+      margin: 1.5rem 0;
+    }
+    
+    /* Trophy Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-overlay.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 4px solid #fbbf24;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: modalIn 0.3s ease-out;
+    }
+    
+    @keyframes modalIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .modal-emoji {
+      font-size: 5rem;
+      animation: bounce 1s ease-in-out infinite;
+    }
+    
+    .modal-title {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 1rem 0;
+    }
+    
+    .modal-text {
+      font-size: 1.125rem;
+      color: #4b5563;
+      margin-bottom: 1rem;
+    }
+    
+    .modal-points {
+      background: white;
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-points-value {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #f97316;
+    }
+    
+    .modal-btn {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* Animations */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h2 {
+        font-size: 1.75rem;
+      }
+      
+      .tab-buttons {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .tab-btn {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+      }
+      
+      .vocab-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .detail-banner .big-emoji {
+        font-size: 5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo" onclick="showHome()">
+        <div class="logo-icon">📚</div>
+        <div class="logo-text">
+          <h1>WTE GOLD 1B</h1>
+          <p>朗文英语一年级下册</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="points-display">
+          <span class="trophy-emoji" id="trophy-emoji">🌱</span>
+          <div class="points-info">
+            <span class="level" id="level-name">Beginner</span>
+            <span class="points"><span id="points">0</span> pts</span>
+          </div>
+        </div>
+        <button class="btn-icon btn-speak" onclick="stopSpeech()" title="停止播放">🔇</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Home View -->
+  <div id="home-view" class="container">
+    <div class="hero">
+      <h2>快乐学英语</h2>
+      <p>点击单元开始学习，赢取奖杯!</p>
+      <div class="badges">
+        <span class="badge badge-yellow">🎯 点读发音</span>
+        <span class="badge badge-pink">🎨 卡通配图</span>
+        <span class="badge badge-blue">🏆 积分奖杯</span>
+      </div>
+    </div>
+
+    <h3 class="section-title">
+      <span class="icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">📚</span>
+      选择单元
+    </h3>
+
+    <div class="units-grid" id="units-grid"></div>
+
+    <div class="stats-card">
+      <h3 class="section-title" style="margin-bottom: 1rem;">
+        <span class="icon" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">🏆</span>
+        学习统计
+      </h3>
+      <div class="stats-grid">
+        <div class="stat-item pink">
+          <p class="stat-value" id="stat-words">0</p>
+          <p class="stat-label">已学单词</p>
+        </div>
+        <div class="stat-item purple">
+          <p class="stat-value" id="stat-points">0</p>
+          <p class="stat-label">总积分</p>
+        </div>
+        <div class="stat-item yellow">
+          <p class="stat-value" id="stat-trophy">🌱</p>
+          <p class="stat-label" id="stat-level">Beginner</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unit Detail View -->
+  <div id="unit-view" class="container unit-detail">
+    <button class="back-btn" onclick="showHome()">← 返回首页</button>
+    
+    <div class="detail-header">
+      <div class="detail-banner" id="detail-banner">
+        <span class="big-emoji" id="detail-emoji">🐕</span>
+        <div class="overlay">
+          <span class="unit-tag" id="detail-tag">Chapter 1</span>
+          <h2 class="unit-name" id="detail-title">Choosing a pet</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab-buttons">
+        <button class="tab-btn vocab active" onclick="switchTab('vocab')">📖 词汇</button>
+        <button class="tab-btn sentences" onclick="switchTab('sentences')">⭐ 句型</button>
+        <button class="tab-btn reading" onclick="switchTab('reading')">📚 精读</button>
+        <button class="tab-btn grammar" onclick="switchTab('grammar')">🎓 语法</button>
+        <button class="tab-btn exercises" onclick="switchTab('exercises')">🎮 练习</button>
+      </div>
+
+      <div id="tab-vocab" class="tab-content active"></div>
+      <div id="tab-sentences" class="tab-content"></div>
+      <div id="tab-reading" class="tab-content"></div>
+      <div id="tab-grammar" class="tab-content"></div>
+      <div id="tab-exercises" class="tab-content"></div>
+    </div>
+  </div>
+
+  <!-- Trophy Modal -->
+  <div class="modal-overlay" id="trophy-modal">
+    <div class="modal-content">
+      <div class="modal-emoji" id="modal-emoji">🏆</div>
+      <h2 class="modal-title">恭喜升级!</h2>
+      <p class="modal-text">你获得了 <span id="modal-level" style="color: #f97316; font-weight: bold;">Expert</span> 称号!</p>
+      <div class="modal-points">
+        <p style="color: #6b7280; font-size: 0.875rem;">当前积分</p>
+        <p class="modal-points-value" id="modal-points">200</p>
+      </div>
+      <button class="modal-btn" onclick="closeModal()">继续学习! 🎉</button>
+    </div>
+  </div>
+
+  <script>
+    // Course Data
+    const units = [
+      {
+        id: 1,
+        title: "Chapter 1",
+        subtitle: "Choosing a pet",
+        themeEmoji: "🐕",
+        color: "from-orange-400 to-red-500",
+        bgGradient: "linear-gradient(135deg, #fb923c 0%, #ef4444 100%)",
+        coreVocab: [
+          { word: "dog", meaning: "狗", phonetic: "/dɒɡ/", emoji: "🐕" },
+          { word: "cat", meaning: "猫", phonetic: "/kæt/", emoji: "🐱" },
+          { word: "bird", meaning: "鸟", phonetic: "/bɜːd/", emoji: "🐦" },
+          { word: "rabbit", meaning: "兔子", phonetic: "/ˈræbɪt/", emoji: "🐰" },
+          { word: "hamster", meaning: "仓鼠", phonetic: "/ˈhæmstə/", emoji: "🐹" },
+        ],
+        extendedVocab: [
+          { word: "this", meaning: "这个", emoji: "👆" },
+          { word: "that", meaning: "那个", emoji: "👉" },
+          { word: "these", meaning: "这些", emoji: "👐" },
+          { word: "those", meaning: "那些", emoji: "👋" },
+          { word: "pet", meaning: "宠物", emoji: "🦮" },
+          { word: "sing", meaning: "唱歌", emoji: "🎤" },
+          { word: "like", meaning: "喜欢", emoji: "❤️" },
+          { word: "find", meaning: "找到", emoji: "🔍" },
+          { word: "lovely", meaning: "可爱的", emoji: "🥰" },
+          { word: "carrot", meaning: "红萝卜", emoji: "🥕" },
+          { word: "seed", meaning: "种子", emoji: "🌱" },
+          { word: "fish", meaning: "鱼", emoji: "🐟" },
+          { word: "bone", meaning: "骨头", emoji: "🦴" },
+        ],
+        sentences: [
+          { english: "What is this?", chinese: "这是什么？", emoji: "❓" },
+          { english: "It is a dog.", chinese: "它是一只狗。", emoji: "🐕" },
+          { english: "What is that?", chinese: "那是什么？", emoji: "❓" },
+          { english: "It is a bird.", chinese: "它是一只鸟。", emoji: "🐦" },
+          { english: "What are these?", chinese: "这些是什么？", emoji: "❓" },
+          { english: "They are dogs.", chinese: "它们是狗。", emoji: "🐕🐕" },
+          { english: "What are those?", chinese: "那些是什么？", emoji: "❓" },
+          { english: "They are birds.", chinese: "它们是小鸟。", emoji: "🐦🐦" },
+          { english: "I like this rabbit.", chinese: "我喜欢这只兔子。", emoji: "🐰❤️" },
+          { english: "I like those rabbits.", chinese: "我喜欢那些兔子。", emoji: "🐰🐰❤️" },
+        ],
+        grammar: [
+          {
+            title: "指示代词 this/that/these/those",
+            content: "this/that 用于单数，these/those 用于复数。this/these 指近处，that/those 指远处。",
+            examples: ["This is a cat. (这是一只猫。)", "That is a dog. (那是一只狗。)", "These are rabbits. (这些是兔子。)", "Those are birds. (那些是小鸟。)"]
+          },
+          {
+            title: "What 疑问句",
+            content: "用 What 询问'什么'，单数用 What is...? 复数用 What are...?",
+            examples: ["What is this? It is a cat.", "What are those? They are dogs."]
+          }
+        ],
+        phonics: {
+          sound: "/t/ /d/",
+          words: [
+            { word: "turtle", meaning: "乌龟", emoji: "🐢" },
+            { word: "ten", meaning: "十", emoji: "🔟" },
+            { word: "dog", meaning: "狗", emoji: "🐕" },
+            { word: "desk", meaning: "桌子", emoji: "🪑" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "What is this? It is ____ dog.", options: ["a", "an", "the"], answer: "a", emoji: "🐕" },
+              { id: 2, type: "choice", question: "I like ____ rabbits. (那些)", options: ["this", "that", "these", "those"], answer: "those", emoji: "🐰" },
+              { id: 3, type: "choice", question: "What are ____? They are birds.", options: ["this", "that", "these", "those"], answer: "those", emoji: "🐦" },
+            ]
+          },
+          {
+            title: "填空题",
+            emoji: "✏️",
+            questions: [
+              { id: 4, type: "fill", question: "What is this? It is a ____ (猫).", answer: "cat", emoji: "🐱" },
+              { id: 5, type: "fill", question: "I like this ____ (兔子).", answer: "rabbit", emoji: "🐰" },
+            ]
+          }
+        ],
+        reading: {
+          title: "My Pet Shop",
+          content: [
+            { text: "Welcome to my pet shop!", translation: "欢迎来到我的宠物店！", emoji: "🏪" },
+            { text: "Look at this dog. It is brown and lovely.", translation: "看这只狗。它是棕色的，很可爱。", emoji: "🐕🟤" },
+            { text: "What is that? It is a white cat.", translation: "那是什么？它是一只白猫。", emoji: "🐱⚪" },
+            { text: "These are my rabbits. They like carrots.", translation: "这些是我的兔子。它们喜欢胡萝卜。", emoji: "🐰🥕" },
+            { text: "Those birds can sing. They are beautiful!", translation: "那些鸟会唱歌。它们很漂亮！", emoji: "🐦🎵" },
+          ]
+        }
+      },
+      {
+        id: 2,
+        title: "Chapter 2",
+        subtitle: "Our pet friends",
+        themeEmoji: "🏠",
+        color: "from-yellow-400 to-orange-500",
+        bgGradient: "linear-gradient(135deg, #fbbf24 0%, #f97316 100%)",
+        coreVocab: [
+          { word: "sofa", meaning: "沙发", phonetic: "/ˈsəʊfə/", emoji: "🛋️" },
+          { word: "table", meaning: "桌子", phonetic: "/ˈteɪbl/", emoji: "🪑" },
+          { word: "chair", meaning: "椅子", phonetic: "/tʃeə/", emoji: "🪑" },
+          { word: "box", meaning: "盒子", phonetic: "/bɒks/", emoji: "📦" },
+          { word: "cupboard", meaning: "橱柜", phonetic: "/ˈkʌbəd/", emoji: "🗄️" },
+          { word: "shelf", meaning: "架子", phonetic: "/ʃelf/", emoji: "🧱" },
+        ],
+        extendedVocab: [
+          { word: "in", meaning: "在...里面", emoji: "📥" },
+          { word: "on", meaning: "在...上面", emoji: "📤" },
+          { word: "near", meaning: "在...旁边", emoji: "📍" },
+          { word: "under", meaning: "在...下面", emoji: "⬇️" },
+          { word: "our", meaning: "我们的", emoji: "👨‍👩‍👧‍👦" },
+          { word: "where", meaning: "在哪里", emoji: "🗺️" },
+          { word: "sad", meaning: "悲伤的", emoji: "😢" },
+          { word: "bag", meaning: "书包", emoji: "🎒" },
+          { word: "bed", meaning: "床", emoji: "🛏️" },
+          { word: "drawer", meaning: "抽屉", emoji: "🗃️" },
+        ],
+        sentences: [
+          { english: "Where is the cat?", chinese: "猫在哪里？", emoji: "🐱❓" },
+          { english: "It is on the chair.", chinese: "它在椅子上。", emoji: "🐱🪑" },
+          { english: "Where are the turtles?", chinese: "那些乌龟在哪里？", emoji: "🐢❓" },
+          { english: "They are under the sofa.", chinese: "它们在沙发下面。", emoji: "🐢🛋️" },
+          { english: "Is Bob under the cupboard?", chinese: "Bob在橱柜下面吗？", emoji: "❓🗄️" },
+          { english: "Yes, he is.", chinese: "是的，他在。", emoji: "✅" },
+          { english: "No, he isn't.", chinese: "不，他不在。", emoji: "❌" },
+          { english: "Are they in the box?", chinese: "它们在盒子里吗？", emoji: "❓📦" },
+          { english: "Yes, they are.", chinese: "是的，它们在。", emoji: "✅" },
+          { english: "No, they aren't.", chinese: "不，它们不在。", emoji: "❌" },
+        ],
+        grammar: [
+          {
+            title: "方位介词 in/on/under/near",
+            content: "in(在...里面), on(在...上面), under(在...下面), near(在...旁边)",
+            examples: ["The cat is on the chair.", "The dog is under the table.", "The bird is in the box.", "The rabbit is near the sofa."]
+          },
+          {
+            title: "Where 疑问句",
+            content: "用 Where 询问地点，单数用 Where is...? 复数用 Where are...?",
+            examples: ["Where is the cat? It is on the chair.", "Where are the dogs? They are under the table."]
+          }
+        ],
+        phonics: {
+          sound: "/æ/",
+          words: [
+            { word: "cat", meaning: "猫", emoji: "🐱" },
+            { word: "fat", meaning: "胖的", emoji: "🍔" },
+            { word: "sad", meaning: "伤心的", emoji: "😢" },
+            { word: "hat", meaning: "帽子", emoji: "🎩" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "The cat is ____ the chair.", options: ["in", "on", "under", "near"], answer: "on", emoji: "🐱" },
+              { id: 2, type: "choice", question: "The dog is ____ the table.", options: ["in", "on", "under", "near"], answer: "under", emoji: "🐕" },
+              { id: 3, type: "choice", question: "Where is the bird? It is ____ the box.", options: ["in", "on", "under"], answer: "in", emoji: "🐦" },
+            ]
+          }
+        ],
+        reading: {
+          title: "Where is My Cat?",
+          content: [
+            { text: "I have a cute cat. Her name is Kitty.", translation: "我有一只可爱的猫。她的名字是Kitty。", emoji: "🐱💕" },
+            { text: "Where is Kitty? Is she on the sofa?", translation: "Kitty在哪里？她在沙发上吗？", emoji: "❓🛋️" },
+            { text: "No, she isn't. She is under the table.", translation: "不，她不在。她在桌子下面。", emoji: "❌🪑" },
+            { text: "Look! She is near the box now.", translation: "看！她现在在盒子旁边。", emoji: "👀📦" },
+            { text: "Kitty likes to hide. She is so funny!", translation: "Kitty喜欢躲起来。她真有趣！", emoji: "😹🎭" },
+          ]
+        }
+      },
+      {
+        id: 3,
+        title: "Chapter 3",
+        subtitle: "Wild animals",
+        themeEmoji: "🦁",
+        color: "from-green-400 to-emerald-500",
+        bgGradient: "linear-gradient(135deg, #4ade80 0%, #10b981 100%)",
+        coreVocab: [
+          { word: "hippo", meaning: "河马", phonetic: "/ˈhɪpəʊ/", emoji: "🦛" },
+          { word: "elephant", meaning: "大象", phonetic: "/ˈelɪfənt/", emoji: "🐘" },
+          { word: "lion", meaning: "狮子", phonetic: "/ˈlaɪən/", emoji: "🦁" },
+          { word: "zebra", meaning: "斑马", phonetic: "/ˈzebrə/", emoji: "🦓" },
+          { word: "snake", meaning: "蛇", phonetic: "/sneɪk/", emoji: "🐍" },
+          { word: "monkey", meaning: "猴子", phonetic: "/ˈmʌŋki/", emoji: "🐵" },
+          { word: "kangaroo", meaning: "袋鼠", phonetic: "/ˌkæŋɡəˈruː/", emoji: "🦘" },
+          { word: "panda", meaning: "熊猫", phonetic: "/ˈpændə/", emoji: "🐼" },
+        ],
+        extendedVocab: [
+          { word: "eleven", meaning: "十一", emoji: "1️⃣1️⃣" },
+          { word: "twelve", meaning: "十二", emoji: "1️⃣2️⃣" },
+          { word: "thirteen", meaning: "十三", emoji: "1️⃣3️⃣" },
+          { word: "twenty", meaning: "二十", emoji: "2️⃣0️⃣" },
+          { word: "tiger", meaning: "老虎", emoji: "🐅" },
+          { word: "giraffe", meaning: "长颈鹿", emoji: "🦒" },
+          { word: "penguin", meaning: "企鹅", emoji: "🐧" },
+          { word: "fly", meaning: "飞", emoji: "🪽" },
+          { word: "grass", meaning: "草", emoji: "🌿" },
+          { word: "sky", meaning: "天空", emoji: "☁️" },
+        ],
+        sentences: [
+          { english: "How many hippos are there?", chinese: "有多少河马？", emoji: "🦛❓" },
+          { english: "There is one hippo.", chinese: "有一只河马。", emoji: "🦛1️⃣" },
+          { english: "How many snakes are there?", chinese: "有多少蛇？", emoji: "🐍❓" },
+          { english: "There are twelve snakes.", chinese: "有十二条蛇。", emoji: "🐍1️⃣2️⃣" },
+          { english: "I can see some zebras.", chinese: "我能看见一些斑马。", emoji: "👀🦓" },
+          { english: "I can see an elephant on the grass.", chinese: "我看见一只大象在草地上。", emoji: "👀🐘🌿" },
+        ],
+        grammar: [
+          {
+            title: "How many 询问数量",
+            content: "用 How many 询问数量，回答用 There is/are...",
+            examples: ["How many dogs are there? There is one dog.", "How many cats are there? There are three cats."]
+          },
+          {
+            title: "a/an 的用法",
+            content: "a 用于辅音音素开头的单词前，an 用于元音音素开头的单词前",
+            examples: ["a dog, a cat, a zebra", "an elephant, an orange, an apple"]
+          }
+        ],
+        phonics: {
+          sound: "/f/ /v/",
+          words: [
+            { word: "find", meaning: "找到", emoji: "🔍" },
+            { word: "fan", meaning: "风扇", emoji: "🌀" },
+            { word: "vet", meaning: "兽医", emoji: "👨‍⚕️" },
+            { word: "van", meaning: "面包车", emoji: "🚐" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "There is ____ elephant.", options: ["a", "an"], answer: "an", emoji: "🐘" },
+              { id: 2, type: "choice", question: "How many ____ are there? There are twelve.", options: ["hippo", "snakes", "zebra"], answer: "snakes", emoji: "🐍" },
+              { id: 3, type: "choice", question: "I can see ____ elephant.", options: ["a", "an"], answer: "an", emoji: "🐘" },
+            ]
+          }
+        ],
+        reading: {
+          title: "At the Zoo",
+          content: [
+            { text: "Welcome to the zoo! Let's see the animals.", translation: "欢迎来到动物园！让我们看看动物们。", emoji: "🦁🦓" },
+            { text: "Look at the elephant. It is very big!", translation: "看那只大象。它非常大！", emoji: "🐘" },
+            { text: "How many lions are there? There are three.", translation: "有多少只狮子？有三只。", emoji: "🦁3️⃣" },
+            { text: "The monkeys are funny. They can climb trees.", translation: "猴子们很有趣。它们会爬树。", emoji: "🐵🌳" },
+            { text: "I like the panda. It is black and white.", translation: "我喜欢熊猫。它是黑白相间的。", emoji: "🐼" },
+          ]
+        }
+      },
+      {
+        id: 4,
+        title: "Chapter 4",
+        subtitle: "More about animals",
+        themeEmoji: "🐢",
+        color: "from-cyan-400 to-blue-500",
+        bgGradient: "linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%)",
+        coreVocab: [
+          { word: "eating", meaning: "正在吃", emoji: "🍽️" },
+          { word: "sleeping", meaning: "正在睡觉", emoji: "😴" },
+          { word: "fighting", meaning: "正在打架", emoji: "🥊" },
+          { word: "hopping", meaning: "正在跳跃", emoji: "🦘" },
+          { word: "running", meaning: "正在跑", emoji: "🏃" },
+          { word: "swimming", meaning: "正在游泳", emoji: "🏊" },
+        ],
+        extendedVocab: [
+          { word: "reading", meaning: "正在读", emoji: "📖" },
+          { word: "climbing", meaning: "正在爬", emoji: "🧗" },
+          { word: "walking", meaning: "正在走", emoji: "🚶" },
+          { word: "singing", meaning: "正在唱", emoji: "🎤" },
+          { word: "drawing", meaning: "正在画", emoji: "🎨" },
+          { word: "dancing", meaning: "正在跳舞", emoji: "💃" },
+          { word: "flying", meaning: "正在飞", emoji: "🪽" },
+          { word: "silly", meaning: "愚蠢的", emoji: "🤪" },
+        ],
+        sentences: [
+          { english: "The elephant is sleeping.", chinese: "大象正在睡觉。", emoji: "🐘😴" },
+          { english: "The hippo is eating.", chinese: "河马正在吃东西。", emoji: "🦛🍽️" },
+          { english: "The rabbits are hopping.", chinese: "兔子们正在跳跃。", emoji: "🐰🦘" },
+          { english: "The turtles are swimming.", chinese: "乌龟们正在游泳。", emoji: "🐢🏊" },
+          { english: "How many tigers are there?", chinese: "有多少只老虎？", emoji: "🐅❓" },
+          { english: "There are fifteen tigers.", chinese: "有十五只老虎。", emoji: "🐅1️⃣5️⃣" },
+          { english: "What are they doing?", chinese: "它们正在做什么？", emoji: "❓" },
+          { english: "They are running.", chinese: "它们正在跑。", emoji: "🏃" },
+        ],
+        grammar: [
+          {
+            title: "现在进行时",
+            content: "be动词(am/is/are) + 动词-ing形式，表示正在进行的动作",
+            examples: ["The cat is sleeping.", "The dogs are running.", "I am eating."]
+          },
+          {
+            title: "动词-ing变化规则",
+            content: "1. 一般加-ing 2. 以e结尾去e加-ing 3. 重读闭音节双写尾字母加-ing",
+            examples: ["eat → eating", "dance → dancing", "run → running"]
+          }
+        ],
+        phonics: {
+          sound: "/l/ /r/",
+          words: [
+            { word: "long", meaning: "长的", emoji: "📏" },
+            { word: "leg", meaning: "腿", emoji: "🦵" },
+            { word: "run", meaning: "跑", emoji: "🏃" },
+            { word: "red", meaning: "红色的", emoji: "🔴" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "The elephant ____ sleeping.", options: ["is", "are", "am"], answer: "is", emoji: "🐘" },
+              { id: 2, type: "choice", question: "The rabbits ____ hopping.", options: ["is", "are", "am"], answer: "are", emoji: "🐰" },
+            ]
+          },
+          {
+            title: "填空题",
+            emoji: "✏️",
+            questions: [
+              { id: 3, type: "fill", question: "The hippo is ____ (eat的-ing形式).", answer: "eating", emoji: "🦛" },
+              { id: 4, type: "fill", question: "The turtles are ____ (swim的-ing形式).", answer: "swimming", emoji: "🐢" },
+            ]
+          }
+        ],
+        reading: {
+          title: "Animals at the Park",
+          content: [
+            { text: "It is a sunny day at the park.", translation: "这是公园里阳光明媚的一天。", emoji: "☀️🌳" },
+            { text: "Look! The elephant is sleeping under the tree.", translation: "看！大象正在树下睡觉。", emoji: "🐘😴🌳" },
+            { text: "The hippo is eating grass. It is hungry.", translation: "河马正在吃草。它饿了。", emoji: "🦛🌿" },
+            { text: "What are the monkeys doing? They are climbing.", translation: "猴子们在做什么？它们正在爬树。", emoji: "🐵🧗" },
+            { text: "The rabbits are hopping. They are so happy!", translation: "兔子们正在跳跃。它们真开心！", emoji: "🐰🦘😊" },
+          ]
+        }
+      },
+      {
+        id: 5,
+        title: "Chapter 5",
+        subtitle: "Happy moments",
+        themeEmoji: "👨‍👩‍👧‍👦",
+        color: "from-indigo-400 to-purple-500",
+        bgGradient: "linear-gradient(135deg, #818cf8 0%, #8b5cf6 100%)",
+        coreVocab: [
+          { word: "cooking", meaning: "正在做饭", emoji: "🍳" },
+          { word: "playing", meaning: "正在玩", emoji: "🎮" },
+          { word: "watching", meaning: "正在看", emoji: "📺" },
+          { word: "making", meaning: "正在制作", emoji: "🔨" },
+          { word: "dancing", meaning: "正在跳舞", emoji: "💃" },
+        ],
+        extendedVocab: [
+          { word: "washing", meaning: "正在洗", emoji: "🧼" },
+          { word: "football", meaning: "足球", emoji: "⚽" },
+          { word: "TV", meaning: "电视", emoji: "📺" },
+          { word: "plane", meaning: "飞机", emoji: "✈️" },
+          { word: "bicycle", meaning: "自行车", emoji: "🚲" },
+          { word: "photo", meaning: "照片", emoji: "📸" },
+          { word: "kitchen", meaning: "厨房", emoji: "🍳" },
+          { word: "bedroom", meaning: "卧室", emoji: "🛏️" },
+          { word: "garden", meaning: "花园", emoji: "🌻" },
+        ],
+        sentences: [
+          { english: "What is he doing?", chinese: "他在做什么？", emoji: "👨❓" },
+          { english: "He is making a plane.", chinese: "他正在做飞机。", emoji: "👨✈️" },
+          { english: "What is she doing?", chinese: "她在做什么？", emoji: "👩❓" },
+          { english: "She is watching TV.", chinese: "她正在看电视。", emoji: "👩📺" },
+          { english: "What are you doing?", chinese: "你在做什么？", emoji: "❓" },
+          { english: "I am cooking.", chinese: "我正在做饭。", emoji: "🍳" },
+          { english: "What are they doing?", chinese: "他们在做什么？", emoji: "👥❓" },
+          { english: "They are watching TV.", chinese: "他们正在看电视。", emoji: "👥📺" },
+          { english: "This is my father.", chinese: "这是我的爸爸。", emoji: "👨‍👧" },
+          { english: "These are my brothers.", chinese: "这些是我的哥哥/弟弟。", emoji: "👬" },
+        ],
+        grammar: [
+          {
+            title: "What is/are...doing? 句型",
+            content: "用 What is/are...doing? 询问某人正在做什么",
+            examples: ["What is he doing? He is cooking.", "What are they doing? They are playing."]
+          },
+          {
+            title: "This is/These are...",
+            content: "This is 用于介绍单数，These are 用于介绍复数",
+            examples: ["This is my father.", "These are my brothers."]
+          }
+        ],
+        phonics: {
+          sound: "/w/ /wh/",
+          words: [
+            { word: "watch", meaning: "看", emoji: "👀" },
+            { word: "water", meaning: "水", emoji: "💧" },
+            { word: "what", meaning: "什么", emoji: "❓" },
+            { word: "white", meaning: "白色的", emoji: "⚪" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "What ____ he doing? He is cooking.", options: ["is", "are", "am"], answer: "is", emoji: "👨" },
+              { id: 2, type: "choice", question: "What are ____ doing? They are watching TV.", options: ["he", "she", "they"], answer: "they", emoji: "👥" },
+            ]
+          }
+        ],
+        reading: {
+          title: "My Family",
+          content: [
+            { text: "This is my family. We are at home today.", translation: "这是我的家人。我们今天在家。", emoji: "👨‍👩‍👧‍👦🏠" },
+            { text: "My father is making a plane in the garden.", translation: "我的爸爸正在花园里做飞机。", emoji: "👨✈️🌻" },
+            { text: "My mother is cooking in the kitchen.", translation: "我的妈妈正在厨房里做饭。", emoji: "👩🍳" },
+            { text: "What are my brothers doing? They are playing football.", translation: "我的哥哥们在做什么？他们正在踢足球。", emoji: "👬⚽" },
+            { text: "I am watching TV. We are happy!", translation: "我正在看电视。我们很开心！", emoji: "📺😊" },
+          ]
+        }
+      },
+      {
+        id: 6,
+        title: "Chapter 6",
+        subtitle: "A fashion show",
+        themeEmoji: "👗",
+        color: "from-pink-400 to-rose-500",
+        bgGradient: "linear-gradient(135deg, #f472b6 0%, #f43f5e 100%)",
+        coreVocab: [
+          { word: "shirt", meaning: "衬衫", phonetic: "/ʃɜːt/", emoji: "👔" },
+          { word: "T-shirt", meaning: "T恤衫", phonetic: "/ˈtiː ʃɜːt/", emoji: "👕" },
+          { word: "dress", meaning: "连衣裙", phonetic: "/dres/", emoji: "👗" },
+          { word: "skirt", meaning: "短裙", phonetic: "/skɜːt/", emoji: "👗" },
+          { word: "shorts", meaning: "短裤", phonetic: "/ʃɔːts/", emoji: "🩳" },
+          { word: "jeans", meaning: "牛仔裤", phonetic: "/dʒiːnz/", emoji: "👖" },
+          { word: "trousers", meaning: "长裤", phonetic: "/ˈtraʊzəz/", emoji: "👖" },
+          { word: "cap", meaning: "鸭舌帽", phonetic: "/kæp/", emoji: "🧢" },
+          { word: "hat", meaning: "帽子", phonetic: "/hæt/", emoji: "🎩" },
+        ],
+        extendedVocab: [
+          { word: "her", meaning: "她的", emoji: "👩" },
+          { word: "his", meaning: "他的", emoji: "👨" },
+          { word: "wear", meaning: "穿，戴", emoji: "👕" },
+          { word: "purple", meaning: "紫色", emoji: "🟣" },
+          { word: "beautiful", meaning: "美丽的", emoji: "✨" },
+          { word: "jacket", meaning: "外套", emoji: "🧥" },
+          { word: "socks", meaning: "短袜", emoji: "🧦" },
+          { word: "shoes", meaning: "鞋", emoji: "👟" },
+          { word: "colour", meaning: "颜色", emoji: "🎨" },
+        ],
+        sentences: [
+          { english: "Here is Mary.", chinese: "这是玛丽。", emoji: "👋👧" },
+          { english: "Her shorts are purple.", chinese: "她的短裤是紫色的。", emoji: "🩳🟣" },
+          { english: "His T-shirt is green and brown.", chinese: "他的T恤衫是绿色和棕色的。", emoji: "👕🟢🟤" },
+          { english: "What colour is her dress?", chinese: "她的连衣裙是什么颜色的？", emoji: "👗❓" },
+          { english: "It is pink.", chinese: "它是粉红色的。", emoji: "🩷" },
+          { english: "What is she wearing?", chinese: "她穿着什么？", emoji: "👩❓" },
+          { english: "She is wearing a shirt and a skirt.", chinese: "她穿着衬衫和短裙。", emoji: "👔👗" },
+        ],
+        grammar: [
+          {
+            title: "What colour...? 询问颜色",
+            content: "用 What colour is/are...? 询问颜色，单数用is，复数用are",
+            examples: ["What colour is her dress? It is pink.", "What colour are his trousers? They are black."]
+          },
+          {
+            title: "her/his 的用法",
+            content: "her 表示'她的'，his 表示'他的'",
+            examples: ["Her shorts are purple.", "His T-shirt is green."]
+          }
+        ],
+        phonics: {
+          sound: "/s/ /sh/",
+          words: [
+            { word: "sock", meaning: "袜子", emoji: "🧦" },
+            { word: "sister", meaning: "姐妹", emoji: "👭" },
+            { word: "shorts", meaning: "短裤", emoji: "🩳" },
+            { word: "shirt", meaning: "衬衫", emoji: "👔" }
+          ]
+        },
+        exercises: [
+          {
+            title: "选择题",
+            emoji: "📝",
+            questions: [
+              { id: 1, type: "choice", question: "____ shorts are purple.", options: ["Her", "His", "Its"], answer: "Her", emoji: "🩳" },
+              { id: 2, type: "choice", question: "What colour ____ her dress?", options: ["is", "are", "am"], answer: "is", emoji: "👗" },
+            ]
+          }
+        ],
+        reading: {
+          title: "Fashion Show",
+          content: [
+            { text: "Welcome to our fashion show!", translation: "欢迎来到我们的时装秀！", emoji: "👗✨" },
+            { text: "Here is Mary. She is wearing a pink dress.", translation: "这是玛丽。她穿着一条粉红色的连衣裙。", emoji: "👧👗🩷" },
+            { text: "Her shoes are white. She looks beautiful!", translation: "她的鞋子是白色的。她看起来很漂亮！", emoji: "👟⚪✨" },
+            { text: "Here is Tom. His T-shirt is blue.", translation: "这是汤姆。他的T恤衫是蓝色的。", emoji: "👦👕🔵" },
+            { text: "His cap is red. He looks cool!", translation: "他的鸭舌帽是红色的。他看起来很酷！", emoji: "🧢🔴😎" },
+          ]
+        }
+      }
+    ];
+
+    // Trophy levels
+    const trophyLevels = [
+      { min: 0, max: 49, name: "Beginner", emoji: "🌱", color: "from-green-400 to-green-600" },
+      { min: 50, max: 99, name: "Explorer", emoji: "🥉", color: "from-orange-400 to-orange-600" },
+      { min: 100, max: 199, name: "Achiever", emoji: "🥈", color: "from-blue-400 to-blue-600" },
+      { min: 200, max: 299, name: "Expert", emoji: "🥇", color: "from-yellow-400 to-yellow-600" },
+      { min: 300, max: 9999, name: "Master", emoji: "🏆", color: "from-purple-400 to-purple-600" },
+    ];
+
+    // State
+    let currentUnit = null;
+    let points = parseInt(localStorage.getItem('wte1b_points') || '0');
+    let learnedWords = new Set(JSON.parse(localStorage.getItem('wte1b_learned') || '[]'));
+    let exerciseScores = JSON.parse(localStorage.getItem('wte1b_scores') || '{}');
+
+    // Initialize
+    function init() {
+      renderUnits();
+      updateStats();
+    }
+
+    // Get trophy level
+    function getTrophyLevel(pts) {
+      return trophyLevels.find(l => pts >= l.min && pts <= l.max) || trophyLevels[0];
+    }
+
+    // Update stats display
+    function updateStats() {
+      const trophy = getTrophyLevel(points);
+      document.getElementById('points').textContent = points;
+      document.getElementById('level-name').textContent = trophy.name;
+      document.getElementById('trophy-emoji').textContent = trophy.emoji;
+      document.getElementById('stat-words').textContent = learnedWords.size;
+      document.getElementById('stat-points').textContent = points;
+      document.getElementById('stat-trophy').textContent = trophy.emoji;
+      document.getElementById('stat-level').textContent = trophy.name;
+    }
+
+    // Save data
+    function saveData() {
+      localStorage.setItem('wte1b_points', points.toString());
+      localStorage.setItem('wte1b_learned', JSON.stringify([...learnedWords]));
+      localStorage.setItem('wte1b_scores', JSON.stringify(exerciseScores));
+    }
+
+    // Add points
+    function addPoints(amount) {
+      const oldLevel = getTrophyLevel(points);
+      points += amount;
+      const newLevel = getTrophyLevel(points);
+      
+      if (newLevel.name !== oldLevel.name) {
+        showTrophyModal(newLevel);
+      }
+      
+      saveData();
+      updateStats();
+    }
+
+    // Show trophy modal
+    function showTrophyModal(level) {
+      document.getElementById('modal-emoji').textContent = level.emoji;
+      document.getElementById('modal-level').textContent = level.name;
+      document.getElementById('modal-points').textContent = points;
+      document.getElementById('trophy-modal').classList.add('active');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('trophy-modal').classList.remove('active');
+    }
+
+    // Render units grid
+    function renderUnits() {
+      const grid = document.getElementById('units-grid');
+      grid.innerHTML = units.map(unit => {
+        const totalWords = unit.coreVocab.length + unit.extendedVocab.length;
+        let learned = 0;
+        [...unit.coreVocab, ...unit.extendedVocab].forEach(v => {
+          if (learnedWords.has(`${unit.id}-${v.word}`)) learned++;
+        });
+        const progress = totalWords > 0 ? (learned / totalWords) * 100 : 0;
+        
+        return `
+          <button class="unit-card" onclick="selectUnit(${unit.id})">
+            <div class="decor" style="background: ${unit.bgGradient}"></div>
+            <div class="unit-header">
+              <span class="unit-emoji">${unit.themeEmoji}</span>
+              <div>
+                <span class="unit-badge" style="background: ${unit.bgGradient}">${unit.title}</span>
+                <h4 class="unit-title">${unit.subtitle}</h4>
+              </div>
+            </div>
+            <div class="unit-meta">
+              <span>${totalWords} 个单词</span>
+              <span>${unit.sentences.length} 个句型</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${progress}%; background: ${unit.bgGradient}"></div>
+            </div>
+            <div class="progress-text">
+              <span>学习进度</span>
+              <span>${learned}/${totalWords}</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Select unit
+    function selectUnit(unitId) {
+      currentUnit = units.find(u => u.id === unitId);
+      document.getElementById('home-view').style.display = 'none';
+      document.getElementById('unit-view').classList.add('active');
+      
+      document.getElementById('detail-banner').style.background = currentUnit.bgGradient;
+      document.getElementById('detail-emoji').textContent = currentUnit.themeEmoji;
+      document.getElementById('detail-tag').textContent = currentUnit.title;
+      document.getElementById('detail-title').textContent = currentUnit.subtitle;
+      
+      renderVocab();
+      renderSentences();
+      renderReading();
+      renderGrammar();
+      renderExercises();
+      
+      switchTab('vocab');
+    }
+
+    // Show home
+    function showHome() {
+      document.getElementById('home-view').style.display = 'block';
+      document.getElementById('unit-view').classList.remove('active');
+      renderUnits();
+    }
+
+    // Switch tab
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      document.querySelector(`.tab-btn.${tab}`).classList.add('active');
+      document.getElementById(`tab-${tab}`).classList.add('active');
+    }
+
+    // Render vocabulary
+    function renderVocab() {
+      const container = document.getElementById('tab-vocab');
+      
+      const coreHtml = currentUnit.coreVocab.map(v => createVocabCard(v)).join('');
+      const extHtml = currentUnit.extendedVocab.map(v => createVocabCard(v)).join('');
+      
+      container.innerHTML = `
+        <h3 class="section-title">
+          <span class="icon" style="background: linear-gradient(135deg, #f472b6 0%, #a855f7 100%);">⭐</span>
+          核心词汇
+        </h3>
+        <div class="vocab-grid">${coreHtml}</div>
+        <div class="divider"></div>
+        <h3 class="section-title">
+          <span class="icon" style="background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);">💫</span>
+          拓展词汇
+        </h3>
+        <div class="vocab-grid">${extHtml}</div>
+        <div class="phonics-section">
+          <div class="phonics-header">
+            <span class="phonics-sound">${currentUnit.phonics.sound}</span>
+            <span style="color: #6b7280; font-weight: bold;">🎵 Phonics 发音练习</span>
+          </div>
+          <div class="phonics-grid">
+            ${currentUnit.phonics.words.map(w => `
+              <div class="phonics-item">
+                <div>
+                  <div class="phonics-word">${w.word}</div>
+                  <div class="phonics-meaning">${w.meaning}</div>
+                </div>
+                <button class="btn-icon btn-speak" onclick="speak('${w.word}')">🔊</button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function createVocabCard(vocab) {
+      const isLearned = learnedWords.has(`${currentUnit.id}-${vocab.word}`);
+      return `
+        <div class="vocab-card ${isLearned ? 'learned' : ''}">
+          <span class="vocab-emoji">${vocab.emoji}</span>
+          <div class="vocab-info">
+            <div>
+              <span class="vocab-word">${vocab.word}</span>
+              ${vocab.phonetic ? `<span class="vocab-phonetic">${vocab.phonetic}</span>` : ''}
+            </div>
+            <div class="vocab-meaning">${vocab.meaning}</div>
+          </div>
+          <div class="vocab-actions">
+            <button class="btn-icon btn-star ${isLearned ? 'active' : ''}" onclick="toggleLearned('${vocab.word}')">⭐</button>
+            <button class="btn-icon btn-speak" onclick="speak('${vocab.word}')">🔊</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleLearned(word) {
+      const key = `${currentUnit.id}-${word}`;
+      if (learnedWords.has(key)) {
+        learnedWords.delete(key);
+      } else {
+        learnedWords.add(key);
+        addPoints(5);
+      }
+      saveData();
+      renderVocab();
+      updateStats();
+    }
+
+    // Render sentences
+    function renderSentences() {
+      const container = document.getElementById('tab-sentences');
+      container.innerHTML = `
+        <h3 class="section-title">
+          <span class="icon" style="background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);">💬</span>
+          重点句型
+        </h3>
+        ${currentUnit.sentences.map((s, i) => `
+          <div class="sentence-card">
+            <span class="sentence-num">${i + 1}</span>
+            <span class="sentence-emoji">${s.emoji}</span>
+            <div class="sentence-text">
+              <p class="sentence-en">${s.english}</p>
+              <p class="sentence-cn">${s.chinese}</p>
+            </div>
+            <button class="btn-icon btn-speak" onclick="speak('${s.english}')">🔊</button>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    // Render reading
+    function renderReading() {
+      const container = document.getElementById('tab-reading');
+      container.innerHTML = `
+        <div class="reading-section">
+          <h3 class="reading-title">📖 ${currentUnit.reading.title}</h3>
+          ${currentUnit.reading.content.map((item, i) => `
+            <div class="reading-item">
+              <span class="reading-num">${i + 1}</span>
+              <span class="reading-emoji">${item.emoji}</span>
+              <div class="reading-content">
+                <p class="reading-en">${item.text}</p>
+                <p class="reading-cn">${item.translation}</p>
+              </div>
+              <button class="btn-icon btn-speak" onclick="speak('${item.text}')">🔊</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Render grammar
+    function renderGrammar() {
+      const container = document.getElementById('tab-grammar');
+      container.innerHTML = `
+        <h3 class="section-title">
+          <span class="icon" style="background: linear-gradient(135deg, #22d3ee 0%, #3b82f6 100%);">📖</span>
+          语法点讲解
+        </h3>
+        ${currentUnit.grammar.map((g, i) => `
+          <div class="grammar-card">
+            <div class="grammar-header">
+              <span class="grammar-num">${i + 1}</span>
+              <h4 class="grammar-title">${g.title}</h4>
+            </div>
+            <p class="grammar-content">${g.content}</p>
+            <div class="grammar-examples">
+              <p class="grammar-examples-title">✨ 例句：</p>
+              ${g.examples.map(e => `<p class="grammar-example">• ${e}</p>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    // Render exercises
+    function renderExercises() {
+      const container = document.getElementById('tab-exercises');
+      container.innerHTML = `
+        <h3 class="section-title">
+          <span class="icon" style="background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);">🎮</span>
+          课后练习
+        </h3>
+        ${currentUnit.exercises.map((ex, idx) => renderExercise(ex, idx)).join('')}
+      `;
+    }
+
+    function renderExercise(exercise, exIndex) {
+      const exerciseId = `${currentUnit.id}-${exIndex}`;
+      const isSubmitted = exerciseId in exerciseScores;
+      const score = exerciseScores[exerciseId] || 0;
+      
+      return `
+        <div class="exercise-card">
+          <div class="exercise-header">
+            <span class="exercise-title">${exercise.emoji} ${exercise.title}</span>
+            ${isSubmitted ? `<span class="score-badge ${score >= 80 ? 'perfect' : score >= 60 ? 'good' : 'ok'}">${score}分</span>` : ''}
+          </div>
+          <div class="exercise-content" id="ex-${exIndex}">
+            ${exercise.questions.map((q, qIdx) => renderQuestion(q, exIndex, qIdx)).join('')}
+            <div class="exercise-actions">
+              ${isSubmitted 
+                ? `<button class="btn btn-outline" onclick="resetExercise(${exIndex})">🔄 重新做题</button>`
+                : `<button class="btn btn-primary" onclick="submitExercise(${exIndex})" id="submit-${exIndex}">提交答案</button>`
+              }
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderQuestion(q, exIndex, qIdx) {
+      const exerciseId = `${currentUnit.id}-${exIndex}`;
+      const isSubmitted = exerciseId in exerciseScores;
+      const answers = JSON.parse(localStorage.getItem('wte1b_answers') || '{}');
+      const answer = answers[`${exerciseId}-${q.id}`] || '';
+      const isCorrect = answer.toLowerCase().trim() === q.answer.toLowerCase().trim();
+      
+      if (q.type === 'choice') {
+        return `
+          <div class="question">
+            <div class="question-header">
+              <span class="question-num">${qIdx + 1}</span>
+              <span class="question-emoji">${q.emoji}</span>
+              <span class="question-text">${q.question}</span>
+            </div>
+            <div class="options">
+              ${q.options.map(opt => `
+                <label class="option ${isSubmitted && opt === q.answer ? 'correct' : ''} ${isSubmitted && answer === opt && opt !== q.answer ? 'wrong' : ''}">
+                  <input type="radio" name="q-${exIndex}-${q.id}" value="${opt}" 
+                    ${answer === opt ? 'checked' : ''} 
+                    ${isSubmitted ? 'disabled' : ''} 
+                    onchange="setAnswer(${exIndex}, ${q.id}, '${opt}')">
+                  <span>${opt}</span>
+                  ${isSubmitted && opt === q.answer ? '✓' : ''}
+                  ${isSubmitted && answer === opt && opt !== q.answer ? '✗' : ''}
+                </label>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="question">
+            <div class="question-header">
+              <span class="question-num">${qIdx + 1}</span>
+              <span class="question-emoji">${q.emoji}</span>
+              <span class="question-text">${q.question}</span>
+            </div>
+            <div class="fill-input">
+              <input type="text" value="${answer}" 
+                ${isSubmitted ? 'disabled' : ''} 
+                onchange="setAnswer(${exIndex}, ${q.id}, this.value)"
+                class="${isSubmitted ? (isCorrect ? 'correct' : 'wrong') : ''}"
+                placeholder="请输入答案">
+              ${isSubmitted ? (isCorrect ? ' ✓' : ` ✗ 正确答案: <span style="color: #16a34a; font-weight: bold;">${q.answer}</span>`) : ''}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function setAnswer(exIndex, qId, value) {
+      const exerciseId = `${currentUnit.id}-${exIndex}`;
+      const answers = JSON.parse(localStorage.getItem('wte1b_answers') || '{}');
+      answers[`${exerciseId}-${qId}`] = value;
+      localStorage.setItem('wte1b_answers', JSON.stringify(answers));
+      
+      // Enable submit button if all answered
+      const exercise = currentUnit.exercises[exIndex];
+      const allAnswered = exercise.questions.every(q => answers[`${exerciseId}-${q.id}`]);
+      const submitBtn = document.getElementById(`submit-${exIndex}`);
+      if (submitBtn) {
+        submitBtn.disabled = !allAnswered;
+      }
+    }
+
+    function submitExercise(exIndex) {
+      const exercise = currentUnit.exercises[exIndex];
+      const exerciseId = `${currentUnit.id}-${exIndex}`;
+      const answers = JSON.parse(localStorage.getItem('wte1b_answers') || '{}');
+      
+      let correct = 0;
+      exercise.questions.forEach(q => {
+        const ans = (answers[`${exerciseId}-${q.id}`] || '').toLowerCase().trim();
+        if (ans === q.answer.toLowerCase().trim()) correct++;
+      });
+      
+      const score = Math.round((correct / exercise.questions.length) * 100);
+      exerciseScores[exerciseId] = score;
+      
+      const pointsEarned = score >= 80 ? 20 : score >= 60 ? 15 : 10;
+      addPoints(pointsEarned);
+      
+      saveData();
+      renderExercises();
+    }
+
+    function resetExercise(exIndex) {
+      const exerciseId = `${currentUnit.id}-${exIndex}`;
+      delete exerciseScores[exerciseId];
+      
+      const answers = JSON.parse(localStorage.getItem('wte1b_answers') || '{}');
+      currentUnit.exercises[exIndex].questions.forEach(q => {
+        delete answers[`${exerciseId}-${q.id}`];
+      });
+      localStorage.setItem('wte1b_answers', JSON.stringify(answers));
+      
+      saveData();
+      renderExercises();
+    }
+
+    // Speech synthesis
+    function speak(text) {
+      if (!window.speechSynthesis) {
+        alert('您的浏览器不支持语音播放');
+        return;
+      }
+      
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.75;
+      utterance.pitch = 1.1;
+      
+      const voices = window.speechSynthesis.getVoices();
+      const usVoice = voices.find(v => v.lang === 'en-US');
+      if (usVoice) {
+        utterance.voice = usVoice;
+      }
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeech() {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    // Initialize on load
+    window.onload = init;
+  </script>
+</body>
+</html>
